@@ -3,52 +3,100 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\SignUpRequest;
+use App\Http\Requests\SignInRequest;
 
 class AuthController extends Controller {
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index() {
+    public function signUp(SignUpRequest $request) {
 
-        //
+        $data = $request->only(['name', 'email', 'password']);
 
-    }
+        $user = \App\Models\User::create($data);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {
+        unset($data['password']);
 
-        //
+        $response = [
+            'message' => 'Successful sign up!',
+            'data' => &$data
+        ];
 
-    }
+        if (!$user) {
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id) {
+            $response['message'] = 'Failed to sign up!';
 
-        //
+            return response()->json($response, 400);
 
-    }
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id) {
+        $data = [...$data, ...$this->createToken($user)];
 
-        //
+        return response()->json($response, 201);
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id) {
+    public function signIn(SignInRequest $request) {
 
-        //
+        $data = $request->only(['email', 'password']);
+
+        $response = [
+            'message' => 'Successful sign in!',
+            'data' => &$data
+        ];
+
+        $authenticated = auth()->attempt($data);
+
+        unset($data['password']);
+
+        if (!$authenticated) {
+
+            $response['message'] = 'Failed to sign in!';
+
+            return response()->json($response, 403);
+
+        }
+
+        $data = [...$data, ...$this->createToken(auth()->user())];
+
+        return response()->json($response, 200);
+
+    }
+
+    public function signOut() {
+
+        $user = auth()->user();
+
+        $token = $user->currentAccessToken();
+
+        $token->delete();
+
+        $response = [
+            'message' => 'Successful sign out!',
+            'data' => [
+                ...$user->only(['name', 'email']),
+                'token' => [
+                    ...$token->only(['last_used_at', 'expires_at', 'created_at']),
+                    'deleted_at' => now()
+                ]
+            ]
+        ];
+
+        return response()->json($response, 200);
+
+    }
+
+    private function createToken(\App\Models\User $user, int $expirationAt = 2): array {
+
+        $expirationAt = now()->addHours($expirationAt);
+
+        $token = $user->createToken('auth', ['*'], $expirationAt);
+
+        return [
+            'token' => [
+                'value' => $token->plainTextToken,
+                ...$token->accessToken->only(['last_used_at', 'expires_at', 'created_at'])
+            ]
+        ];
 
     }
 
