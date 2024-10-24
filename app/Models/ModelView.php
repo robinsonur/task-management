@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ModelView extends Model {
 
@@ -13,7 +12,7 @@ class ModelView extends Model {
 
     // Attributes
 
-    public $incrementing = false;
+    public $incrementing = true;
 
     protected $fillable = ['name'];
 
@@ -21,6 +20,22 @@ class ModelView extends Model {
         'record_type_id',
         'record_id'
     ];
+
+    // Relations
+
+    public function record() {
+
+        $recordTypeId = $this->getRecordTypeId();
+
+        $record = \App\Models\Record::withTrashed(true)
+            ->where('record_type_id', $recordTypeId)
+            ->where('name', $this->name)
+            ->first()
+        ;
+
+        return $record;
+
+    }
 
     // Custom attributes
 
@@ -48,7 +63,16 @@ class ModelView extends Model {
 
     public function delete() {
 
-        return $this->record->delete();
+        $recordTypeId = $this->getRecordTypeId();
+
+        $records = \DB::table('records')
+            ->where('record_type_id', $recordTypeId)
+            ->where('name', $this->name)
+        ;
+
+        $records->update(['deleted_at' => date('Y-m-d H:i:s')]);
+
+        return true;
 
     }
 

@@ -11,6 +11,8 @@ class Record extends Model {
 
     use HasFactory, SoftDeletes;
 
+    // Attributes
+
     // protected $primaryKey = ['record_type_id', 'name'];
 
     // public $incrementing = false;
@@ -21,6 +23,8 @@ class Record extends Model {
         'record_type_id',
         'name'
     ];
+
+    // Relations
 
     public function recordType(): BelongsTo {
 
