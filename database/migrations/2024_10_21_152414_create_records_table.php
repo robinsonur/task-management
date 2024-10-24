@@ -12,7 +12,6 @@ return new class extends Migration {
     public function up(): void {
 
         Schema::create('records', function (Blueprint $table) {
-            $table->id();
             $table
                 ->foreignIdFor(\App\Models\RecordType::class)
                 ->constrained()
@@ -23,6 +22,7 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->unique(['record_type_id', 'name']);
+            $table->index(['record_type_id', 'name']);
         });
 
     }

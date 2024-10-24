@@ -4,9 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Status;
 use App\Models\Task;
-use App\Models\User;
 
 class TaskSeeder extends Seeder {
 
@@ -17,7 +15,7 @@ class TaskSeeder extends Seeder {
 
         // Task::factory(100)->create();
 
-        $statusId = (new Status)->findByName('Progress')->id;
+        $statusId = \App\Models\Status::findByName('Progress')->id;
 
         $tasks = [
             [

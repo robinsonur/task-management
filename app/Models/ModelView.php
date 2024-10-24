@@ -13,6 +13,8 @@ class ModelView extends Model {
 
     // Attributes
 
+    public $incrementing = false;
+
     protected $fillable = ['name'];
 
     protected $hidden = [
@@ -22,19 +24,13 @@ class ModelView extends Model {
 
     // Custom attributes
 
-    protected $recordTypeName;
+    protected string $recordTypeName;
 
     // Relations
 
     public function recordType(): HasOne {
 
         return $this->hasOne(RecordType::class, 'id', 'record_type_id');
-
-    }
-
-    public function record(): HasOne {
-
-        return $this->hasOne(Record::class, 'id', 'record_id');
 
     }
 
@@ -48,7 +44,7 @@ class ModelView extends Model {
 
         $record = self::findByName($name);
 
-        if (!$record)
+        if (!$record || !$record->trashed())
             return Record::create($attributes)
         ;
 
@@ -72,6 +68,12 @@ class ModelView extends Model {
 
     }
 
+    public static function getModel(): string {
+
+        return (new static())->model;
+
+    }
+
     public static function getRecordTypeId(): int {
 
         $recordTypeName = self::getRecordTypeName();
@@ -84,10 +86,9 @@ class ModelView extends Model {
 
     public static function findByName(string $name = '', bool $includeTrashed = true) {
 
-        $recordTypeId = self::getRecordTypeId();
+        $model = get_called_class();
 
-        return Record::withTrashed($includeTrashed)
-            ->where('record_type_id', $recordTypeId)
+        return $model::withTrashed($includeTrashed)
             ->where('name', $name)
             ->first()
         ;

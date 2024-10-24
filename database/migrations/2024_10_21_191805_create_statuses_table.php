@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 return new class extends Migration {
 
-    private $schema = 'dbo';
+    // private $schema = 'dbo';
     private $name = 'statuses';
 
     /**
@@ -17,9 +17,7 @@ return new class extends Migration {
 
         DB::statement("
             CREATE VIEW $this->name AS SELECT
-                r.record_type_id,
-                r.id AS record_id,
-                ROW_NUMBER() OVER (ORDER BY r.id) AS id,
+                ROW_NUMBER() OVER (ORDER BY r.created_at) AS id,
                 r.name,
                 r.deleted_at,
                 r.created_at,
@@ -28,7 +26,7 @@ return new class extends Migration {
                 INNER JOIN record_types AS rt
                     ON r.record_type_id = rt.id
                 WHERE rt.name = '" . ucfirst($this->name) . "'
-                ORDER BY r.id
+                ORDER BY id
         ");
 
     }

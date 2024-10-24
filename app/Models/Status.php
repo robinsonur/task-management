@@ -4,6 +4,6 @@ namespace App\Models;
 
 class Status extends ModelView {
 
-    protected $recordTypeName = 'statuses';
+    protected string $recordTypeName = 'Statuses';
 
 }

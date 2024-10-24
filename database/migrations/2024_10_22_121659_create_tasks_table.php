@@ -16,11 +16,7 @@ return new class extends Migration {
             $table->string('name');
             $table->text('description');
             $table->timestamp('due_date');
-            $table
-                ->foreignIdFor(\App\Models\Record::class, 'status_id')
-                ->constrained()
-                ->onDelete('cascade')
-            ;
+            $table->foreignIdFor(\App\Models\Status::class);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->unique(['task_id', 'user_id']);
+            $table->index(['task_id', 'user_id']);
         });
 
     }
