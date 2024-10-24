@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ModelView extends Model {
 
     use HasFactory, SoftDeletes;
+
+    // Attributes
 
     protected $fillable = ['name'];
 
@@ -19,20 +20,15 @@ class ModelView extends Model {
         'record_id'
     ];
 
+    // Custom attributes
+
     protected $recordTypeName;
 
     // Relations
 
-    public function recordType(): HasOneThrough {
+    public function recordType(): HasOne {
 
-        return $this->hasOneThrough(
-            RecordType::class,
-            Record::class,
-            'id',
-            'id',
-            NULL,
-            'record_type_id'
-        );
+        return $this->hasOne(RecordType::class, 'id', 'record_type_id');
 
     }
 
@@ -48,7 +44,17 @@ class ModelView extends Model {
 
         $attributes['record_type_id'] = self::getRecordTypeId();
 
-        return Record::create($attributes);
+        $name = $attributes['name'] ?? NULL;
+
+        $record = self::findByName($name);
+
+        if (!$record)
+            return Record::create($attributes)
+        ;
+
+        $record->restore();
+
+        return $record;
 
     }
 
@@ -76,11 +82,12 @@ class ModelView extends Model {
 
     }
 
-    public static function findByName(string $name = '') {
+    public static function findByName(string $name = '', bool $includeTrashed = true) {
 
-        $recordTypeName = self::getRecordTypeName();
+        $recordTypeId = self::getRecordTypeId();
 
-        return \DB::table($recordTypeName)
+        return Record::withTrashed($includeTrashed)
+            ->where('record_type_id', $recordTypeId)
             ->where('name', $name)
             ->first()
         ;
