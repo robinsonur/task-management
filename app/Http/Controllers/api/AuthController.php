@@ -75,8 +75,8 @@ class AuthController extends Controller {
             'data' => [
                 ...$user->only(['name', 'email']),
                 'token' => [
-                    ...$token->only(['last_used_at', 'expires_at', 'created_at']),
-                    'deleted_at' => now()
+                    'deleted_at' => now(),
+                    ...$token->only(['last_used_at', 'expires_at', 'created_at'])
                 ]
             ]
         ];

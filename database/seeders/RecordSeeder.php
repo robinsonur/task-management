@@ -16,7 +16,7 @@ class RecordSeeder extends Seeder {
 
         // Record::factory(50)->create();
 
-        // $statusRecordTypeId = (new \App\Models\Status)->getRecordTypeId();
+        // $statusRecordTypeId = \App\Models\Status::getRecordTypeId();
 
         // $records = [
         //     // Statuses

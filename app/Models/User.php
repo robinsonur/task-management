@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class User extends Authenticatable {
 
@@ -50,11 +50,17 @@ class User extends Authenticatable {
 
     }
 
-    // TODO: Implements the relation with users_tasks
-    // public function tasks(): HasMany {
+    public function tasks(): HasManyThrough {
 
-    //     return $this->hasMany(Task::class, 'assigned_to');
+        return $this->hasManyThrough(
+            Task::class,
+            UserTask::class,
+            'user_id',
+            'id',
+            NULL,
+            'task_id'
+        );
 
-    // }
+    }
 
 }

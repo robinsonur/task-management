@@ -30,12 +30,4 @@ class SignUpRequest extends FormRequest {
 
     }
 
-    public function passedValidation() {
-
-        ['password' => $password] = $this->input();
-
-        $this->merge(['password' => bcrypt($password)]);
-
-    }
-
 }

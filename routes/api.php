@@ -8,13 +8,16 @@ use App\Http\Controllers\api\RecordController;
 use App\Http\Controllers\api\StatusController;
 use App\Http\Controllers\api\TaskController;
 
-Route::middleware(['guest:sanctum'])->controller(AuthController::class)->group(function() {
+Route::middleware(['guest:sanctum'])
+    ->controller(AuthController::class)
+    ->group(function() {
 
-    Route::post('/signUp', 'signUp');
+        Route::post('/signUp', 'signUp');
 
-    Route::post('/signIn', 'signIn');
+        Route::post('/signIn', 'signIn');
 
-});
+    })
+;
 
 Route::middleware(['auth:sanctum'])->group(function() {
 
