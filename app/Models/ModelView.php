@@ -26,14 +26,6 @@ class ModelView extends Model {
 
     protected string $recordTypeName;
 
-    // Relations
-
-    public function recordType(): HasOne {
-
-        return $this->hasOne(RecordType::class, 'id', 'record_type_id');
-
-    }
-
     // Functions
 
     public static function create(array $attributes = []) {
@@ -79,7 +71,7 @@ class ModelView extends Model {
         $recordTypeName = self::getRecordTypeName();
 
         return \Cache::rememberForever( "{$recordTypeName}_record_type_id", fn() =>
-            RecordType::where('name', $recordTypeName)->first()->id
+            RecordType::withTrashed()->where('name', $recordTypeName)->first()->id
         );
 
     }
