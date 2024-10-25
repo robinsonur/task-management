@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\RecordType;
 
 class RecordTypeSeeder extends Seeder {
 
@@ -13,14 +12,14 @@ class RecordTypeSeeder extends Seeder {
      */
     public function run(): void {
 
-        // RecordType::factory(10)->create();
+        // \App\Models\RecordType::factory(10)->create();
 
         $recordTypes = [
             ['name' => 'Statuses']
         ];
 
         foreach ($recordTypes as $recordType)
-            RecordType::create($recordType)
+            \App\Models\RecordType::create($recordType)
         ;
 
     }

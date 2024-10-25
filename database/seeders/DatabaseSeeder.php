@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder {
 			RecordTypeSeeder::class,
 			RecordSeeder::class,
             StatusSeeder::class,
-			TaskSeeder::class
+			TaskSeeder::class,
+            UserTaskSeeder::class
 		]);
 
     }

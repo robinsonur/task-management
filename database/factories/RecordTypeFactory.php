@@ -18,9 +18,7 @@ class RecordTypeFactory extends Factory {
 
         $name = $this->faker->unique()->name();
 
-        return [
-            'name' => $name
-        ];
+        return ['name' => $name];
 
     }
 

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Status;
 
 class StatusSeeder extends Seeder {
 
@@ -13,7 +12,7 @@ class StatusSeeder extends Seeder {
      */
     public function run(): void {
 
-        // Status::factory(10)->create();
+        // \App\Models\Status::factory(10)->create();
 
         $statuses = [
             ['name' => 'Pending'],
@@ -24,7 +23,7 @@ class StatusSeeder extends Seeder {
         ];
 
         foreach ($statuses as $status)
-            Status::create($status)
+            \App\Models\Status::create($status)
         ;
 
     }

@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Record;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,11 +19,7 @@ class TaskFactory extends Factory {
         $name = $this->faker->title();
         $description = $this->faker->sentence();
         $dueDate = $this->faker->dateTimeBetween('-30 days', '+1 year');
-        $statusId = Record::inRandomOrder()
-            ->where('record_type_id', '=', 1)
-            ->first()
-            ->id
-        ;
+        $statusId = \App\Models\Status::inRandomOrder()->first()->id;
 
         return [
             'name' => $name,

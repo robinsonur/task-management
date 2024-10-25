@@ -5,7 +5,6 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use Illuminate\Database\Seeder;
-// use App\Models\Record;
 
 class RecordSeeder extends Seeder {
 
@@ -14,7 +13,7 @@ class RecordSeeder extends Seeder {
      */
     public function run(): void {
 
-        // Record::factory(50)->create();
+        // \App\Models\Record::factory(50)->create();
 
         // $statusRecordTypeId = \App\Models\Status::getRecordTypeId();
 
@@ -28,7 +27,7 @@ class RecordSeeder extends Seeder {
         // ];
 
         // foreach ($records as $record)
-        //     Record::create($record)
+        //     \App\Models\Record::create($record)
         // ;
 
     }

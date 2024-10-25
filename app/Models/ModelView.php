@@ -12,7 +12,7 @@ class ModelView extends Model {
 
     // Attributes
 
-    public $incrementing = true;
+    public $incrementing = false;
 
     protected $fillable = ['name'];
 

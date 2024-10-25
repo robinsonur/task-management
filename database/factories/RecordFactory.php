@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\RecordType;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Record>
@@ -17,12 +16,12 @@ class RecordFactory extends Factory {
      */
     public function definition(): array {
 
-        $record_type_id = RecordType::inRandomOrder()->first()->id;
-        $description = $this->faker->sentence();
+        $record_type_id = \App\Models\RecordType::inRandomOrder()->first()->id;
+        $name = $this->faker->sentence();
 
         return [
             'record_type_id' => $record_type_id,
-            'description' => $description
+            'description' => $name
         ];
 
     }
