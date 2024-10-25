@@ -21,6 +21,12 @@ class ModelView extends Model {
         'record_id'
     ];
 
+    // Custom attributes
+
+    protected string $recordTypeName;
+
+    protected string $atFormat = 'Y-m-d H:i:s';
+
     // Relations
 
     public function record() {
@@ -36,10 +42,6 @@ class ModelView extends Model {
         return $record;
 
     }
-
-    // Custom attributes
-
-    protected string $recordTypeName;
 
     // Functions
 
@@ -61,16 +63,24 @@ class ModelView extends Model {
 
     }
 
-    public function delete() {
+    public function delete(): bool {
 
-        $recordTypeId = $this->getRecordTypeId();
+        $records = $this->findRecordsByName($this->name);
 
-        $records = \DB::table('records')
-            ->where('record_type_id', $recordTypeId)
-            ->where('name', $this->name)
-        ;
+        $records->update(['deleted_at' => date($this->atFormat)]);
 
-        $records->update(['deleted_at' => date('Y-m-d H:i:s')]);
+        return true;
+
+    }
+
+    public function restore(): bool {
+
+        $records = $this->findRecordsByName($this->name);
+
+        $records->update([
+            'deleted_at' => NULL,
+            'updated_at' => date($this->atFormat)
+        ]);
 
         return true;
 
@@ -81,12 +91,6 @@ class ModelView extends Model {
     public static function getRecordTypeName(): string {
 
         return (new static())->recordTypeName;
-
-    }
-
-    public static function getModel(): string {
-
-        return (new static())->model;
 
     }
 
@@ -108,6 +112,19 @@ class ModelView extends Model {
             ->where('name', $name)
             ->first()
         ;
+
+    }
+
+    public static function findRecordsByName(string $name = '') {
+
+        $recordTypeId = self::getRecordTypeId();
+
+        $records = \DB::table('records')
+            ->where('record_type_id', $recordTypeId)
+            ->where('name', $name)
+        ;
+
+        return $records;
 
     }
 
