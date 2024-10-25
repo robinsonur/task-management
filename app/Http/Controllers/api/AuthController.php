@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SignUpRequest;
+use App\Models\User;
 use App\Http\Requests\SignInRequest;
 
 class AuthController extends Controller {
@@ -12,7 +13,7 @@ class AuthController extends Controller {
 
         $data = $request->only(['name', 'email', 'password']);
 
-        $user = \App\Models\User::create($data);
+        $user = User::create($data);
 
         unset($data['password']);
 
@@ -85,11 +86,11 @@ class AuthController extends Controller {
 
     }
 
-    private function createToken(\App\Models\User $user, int $expirationAt = 2): array {
+    private function createToken(User $user, int $expiresAt = 2): array {
 
-        $expirationAt = now()->addHours($expirationAt);
+        $expiresAt = now()->addHours($expiresAt);
 
-        $token = $user->createToken('auth', ['*'], $expirationAt);
+        $token = $user->createToken('auth', ['*'], $expiresAt);
 
         return [
             'token' => [
