@@ -11,7 +11,7 @@ class UpdateRecordTypeRequest extends FormRequest {
      */
     public function authorize(): bool {
 
-        return false;
+        return true;
 
     }
 
@@ -22,9 +22,19 @@ class UpdateRecordTypeRequest extends FormRequest {
      */
     public function rules(): array {
 
-        return [
-            //
+        $recordTypeId = $this->route('recordType')->id;
+
+        $rules = [
+            'name' => [
+                'required',
+                'string',
+                'min:3',
+                'max:50',
+                "unique:record_types,name,$recordTypeId"
+            ]
         ];
+
+        return $rules;
 
     }
 

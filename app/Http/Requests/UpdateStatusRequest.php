@@ -11,7 +11,7 @@ class UpdateStatusRequest extends FormRequest {
      */
     public function authorize(): bool {
 
-        return false;
+        return true;
 
     }
 
@@ -22,10 +22,19 @@ class UpdateStatusRequest extends FormRequest {
      */
     public function rules(): array {
 
-        return [
-            //
+        $statusId = $this->route('status')->id;
+
+        $rules = [
+            'name' => [
+                'required',
+                'string',
+                'min:3',
+                'max:50',
+                "unique:statuses,name,$statusId"
+            ]
         ];
 
+        return $rules;
     }
 
 }

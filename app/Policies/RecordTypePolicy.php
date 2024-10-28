@@ -13,7 +13,7 @@ class RecordTypePolicy {
      */
     public function viewAny(User $user): bool {
 
-        //
+        return true;
 
     }
 
@@ -22,7 +22,7 @@ class RecordTypePolicy {
      */
     public function view(User $user, RecordType $recordType): bool {
 
-        //
+        return true;
 
     }
 
@@ -31,7 +31,7 @@ class RecordTypePolicy {
      */
     public function create(User $user): bool {
 
-        //
+        return true;
 
     }
 
@@ -40,7 +40,7 @@ class RecordTypePolicy {
      */
     public function update(User $user, RecordType $recordType): bool {
 
-        //
+        return true;
 
     }
 
@@ -49,7 +49,7 @@ class RecordTypePolicy {
      */
     public function delete(User $user, RecordType $recordType): bool {
 
-        //
+        return true;
 
     }
 
@@ -58,7 +58,7 @@ class RecordTypePolicy {
      */
     public function restore(User $user, RecordType $recordType): bool {
 
-        //
+        return true;
 
     }
 
@@ -67,7 +67,7 @@ class RecordTypePolicy {
      */
     public function forceDelete(User $user, RecordType $recordType): bool {
 
-        //
+        return true;
 
     }
 

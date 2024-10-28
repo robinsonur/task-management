@@ -18,7 +18,7 @@ Route::middleware(['guest:sanctum'])
     })
 ;
 
-Route::middleware(['auth:sanctum'])->group(function() {
+Route::middleware(['guest:sanctum'])->group(function() {
 
     Route::post('/signOut', [AuthController::class, 'signOut']);
 

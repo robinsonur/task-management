@@ -11,7 +11,7 @@ class StoreRecordTypeRequest extends FormRequest {
      */
     public function authorize(): bool {
 
-        return false;
+        return true;
 
     }
 
@@ -23,7 +23,13 @@ class StoreRecordTypeRequest extends FormRequest {
     public function rules(): array {
 
         return [
-            //
+            'name' => [
+                'required',
+                'string',
+                'min:3',
+                'max:50',
+                'unique:record_types'
+            ]
         ];
 
     }

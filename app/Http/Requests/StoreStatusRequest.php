@@ -11,7 +11,7 @@ class StoreStatusRequest extends FormRequest {
      */
     public function authorize(): bool {
 
-        return false;
+        return true;
 
     }
 
@@ -22,9 +22,17 @@ class StoreStatusRequest extends FormRequest {
      */
     public function rules(): array {
 
-        return [
-            //
+        $rules = [
+            'name' => [
+                'required',
+                'string',
+                'min:3',
+                'max:20',
+                'unique:statuses'
+            ]
         ];
+
+        return $rules;
 
     }
 

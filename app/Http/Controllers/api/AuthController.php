@@ -88,7 +88,7 @@ class AuthController extends Controller {
 
     private function createToken(User $user, int $expiresAt = 2): array {
 
-        $expiresAt = now()->addHours($expiresAt);
+        $expiresAt = now()->addHours(value: $expiresAt);
 
         $token = $user->createToken('auth', ['*'], $expiresAt);
 

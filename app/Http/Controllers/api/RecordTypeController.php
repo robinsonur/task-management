@@ -4,7 +4,9 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\RecordType;
+use App\Http\Resources\RecordTypeCollection;
 use App\Http\Requests\StoreRecordTypeRequest;
+use App\Http\Resources\RecordTypeResource;
 use App\Http\Requests\UpdateRecordTypeRequest;
 
 class RecordTypeController extends Controller {
@@ -14,7 +16,9 @@ class RecordTypeController extends Controller {
      */
     public function index() {
 
-        //
+        $recordTypes = RecordType::paginate();
+
+        return new RecordTypeCollection($recordTypes);
 
     }
 
@@ -32,7 +36,28 @@ class RecordTypeController extends Controller {
      */
     public function store(StoreRecordTypeRequest $request) {
 
-        //
+        $data = $request->validated();
+
+        $recordType = RecordType::create($data);
+
+        $response = [
+            'message' => 'Record type created successfully!',
+            'data' => $data
+        ];
+
+        ['message' => &$message] = $response;
+
+        $status = 201;
+
+        if (!$recordType) {
+
+            $message = 'An unexpected error occurred while trying to create the record type!';
+
+            $status = 400;
+
+        }
+
+        return response()->json($response, $status);
 
     }
 
@@ -41,7 +66,7 @@ class RecordTypeController extends Controller {
      */
     public function show(RecordType $recordType) {
 
-        //
+        return new RecordTypeResource($recordType);
 
     }
 
@@ -59,7 +84,18 @@ class RecordTypeController extends Controller {
      */
     public function update(UpdateRecordTypeRequest $request, RecordType $recordType) {
 
-        //
+        $data = $request->validated();
+
+        $recordType->update($data);
+
+        $response = [
+            'message' => 'Record type updated successfully!',
+            'data' => $data
+        ];
+
+        $status = 200;
+
+        return response()->json($response, $status);
 
     }
 
@@ -68,7 +104,28 @@ class RecordTypeController extends Controller {
      */
     public function destroy(RecordType $recordType) {
 
-        //
+        $data = $recordType->toArray();
+
+        $response = [
+            'message' => 'Record type deleted successfully!',
+            'data' => $data
+        ];
+
+        ['message' => &$message] = $response;
+
+        $status = 200;
+
+        if (!$recordType) {
+
+            $message = 'An unexpected error occurred while trying to delete the record type!';
+
+            $status = 400;
+
+        } else
+            $recordType->delete()
+        ;
+
+        return response()->json($response, $status);
 
     }
 

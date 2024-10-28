@@ -36,7 +36,28 @@ class StatusController extends Controller {
      */
     public function store(StoreStatusRequest $request) {
 
-        //
+        $data = $request->validated();
+
+        $statusInstance = Status::create($data);
+
+        $response = [
+            'message' => 'Status created successfully!',
+            'data' => $data
+        ];
+
+        ['message' => &$message] = $response;
+
+        $status = 201;
+
+        if (!$statusInstance) {
+
+            $message = 'An unexpected error occurred while trying to create the status!';
+
+            $status = 400;
+
+        }
+
+        return response()->json($response, $status);
 
     }
 
@@ -61,18 +82,50 @@ class StatusController extends Controller {
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStatusRequest $request, Status $status) {
+    public function update(UpdateStatusRequest $request, Status $statusInstance) {
 
-        //
+        $data = $request->validated();
+
+        $statusInstance->update($data);
+
+        $response = [
+            'message' => 'Status updated successfully!',
+            'data' => $data
+        ];
+
+        $status = 200;
+
+        return response()->json($response, $status);
 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Status $status) {
+    public function destroy(Status $statusInstance) {
 
-        //
+        $data = $statusInstance->toArray();
+
+        $response = [
+            'message' => 'Record type deleted successfully!',
+            'data' => $data
+        ];
+
+        ['message' => &$message] = $response;
+
+        $status = 200;
+
+        if (!$statusInstance) {
+
+            $message = 'An unexpected error occurred while trying to delete the record type!';
+
+            $status = 400;
+
+        } else
+            $statusInstance->delete()
+        ;
+
+        return response()->json($response, $status);
 
     }
 

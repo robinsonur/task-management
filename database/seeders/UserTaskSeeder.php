@@ -12,15 +12,15 @@ class UserTaskSeeder extends Seeder {
      */
     public function run(): void {
 
-        \App\Models\UserTask::factory(50)->create();
+        // \App\Models\UserTask::factory(50)->create();
 
-        // $userTasks = [
-        //     ['task_id' => 1, 'user_id' => 1]
-        // ];
+        $userTasks = [
+            ['task_id' => 1, 'user_id' => 1]
+        ];
 
-        // foreach ($userTasks as $userTask)
-        //     \App\Models\UserTask::create($userTask)
-        // ;
+        foreach ($userTasks as $userTask)
+            \App\Models\UserTask::create($userTask)
+        ;
 
     }
 

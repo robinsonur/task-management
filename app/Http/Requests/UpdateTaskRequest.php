@@ -11,7 +11,7 @@ class UpdateTaskRequest extends FormRequest {
      */
     public function authorize(): bool {
 
-        return false;
+        return true;
 
     }
 
@@ -22,9 +22,33 @@ class UpdateTaskRequest extends FormRequest {
      */
     public function rules(): array {
 
-        return [
-            //
+        $taskId = $this->route('task')->id;
+
+        $rules = [
+            'name' => [
+                'string',
+                'min:3',
+                'max:255',
+                "unique:tasks,name,$taskId"
+            ],
+            'description' => [
+                'string'
+            ],
+            'due_date' => [
+                'date',
+                'after_or_equal:-15 days'
+            ],
+            'status_id' => [
+                'integer',
+                'exists:statuses,id'
+            ]
         ];
+
+		foreach($rules as &$attribute)
+			$attribute[] = $this->method() === 'PATCH' ? 'sometimes' : 'required'
+		;
+
+        return $rules;
 
     }
 
