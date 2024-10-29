@@ -34,32 +34,32 @@ To start the Laravel project from a repository, please follow the detailed steps
 
 ## Setup Instructions
 
-## 1. Clone the Repository
+### 1. Clone the Repository
 Clone the project repository and navigate into the project directory.
 ```sh
 git clone https://github.com/robinson-urena-hytech/task-management.git
 cd task-management
 ```
 
-## 2. Install Dependencies
+### 2. Install Dependencies
 Use Composer to install all necessary dependencies.
 ```sh
 composer install
 ```
 
-## 3. Copy the Environment Configuration File
+### 3. Copy the Environment Configuration File
 Copy the sample environment file and create your `.env` file.
 ```sh
 cp .env.example .env
 ```
 
-## 4. Generate the Application Key
+### 4. Generate the Application Key
 Generate a unique application key for Laravel.
 ```sh
 php artisan key:generate
 ```
 
-## 5. Configure the `.env` File
+### 5. Configure the `.env` File
 Open the `.env` file and update the following settings:
 - Database Configuration: Update `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` to match your MySQL setup.
 - Other Settings: Modify other configurations as needed.
@@ -69,23 +69,22 @@ DB_USERNAME=your_username
 DB_PASSWORD=your_password
 ```
 
-## 6. Run Database Migrations
+### 6. Run Database Migrations
 Apply the database schema with migrations.
 ```sh
 php artisan migrate:fresh --seed
 ```
 
-## 7. Seed the Database (Optional)
-If the project requires initial data, you can seed the database.
-```sh
-php artisan db:seed
-```
-
-## 8. Start the Development Server
+### 8. Start the Development Server
 Start Laravel’s development server to test the application locally.
 ```sh
 php artisan serve
 ```
+
+### 9. You can sign in with the following credentials:
+- **Email**: administrator@domain.com
+- **Password**: Administrator
+- **PATH END POINT**: /api/signIn [POST]
 
 ## Additional Notes
 - Using Laravel Herd: If you're using Laravel Herd, it will automatically configure PHP, MySQL, and necessary dependencies. Simply ensure Herd is installed and running, then navigate to the project folder and run:
