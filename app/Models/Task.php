@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -19,16 +19,13 @@ class Task extends Model {
         'status_id'
     ];
 
-    public function users(): HasManyThrough {
+    public function users(): BelongsToMany {
 
-        return $this->hasManyThrough(
-            User::class,
-            UserTask::class,
-            'task_id',
-            'id',
-            NULL,
-            'user_id'
-        );
+        return $this
+            ->belongsToMany(User::class, 'user_tasks')
+            ->withTimestamps()
+            ->withPivot('deleted_at')
+        ;
 
     }
 

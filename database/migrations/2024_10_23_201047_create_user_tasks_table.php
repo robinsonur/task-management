@@ -21,7 +21,6 @@ return new class extends Migration {
                 ->foreignIdFor(\App\Models\User::class)
                 ->constrained()
             ;
-            $table->softDeletes();
             $table->timestamps();
 
             $table->unique(['task_id', 'user_id']);

@@ -19,19 +19,19 @@ class UserSeeder extends Seeder {
 
         \App\Models\User::factory(20)->create();
 
-        // $users = [
-        //     [
-        //         'name' => 'Administrator',
-        //         'email' => 'administrator@domain.com',
-        //         'email_verified_at' => now(),
-        //         'password' => bcrypt('Administrator'),
-        //         'remember_token' => '',
-        //     ]
-        // ];
+        $users = [
+            [
+                'name' => 'Administrator',
+                'email' => 'administrator@domain.com',
+                'email_verified_at' => now(),
+                'password' => bcrypt('Administrator'),
+                'remember_token' => '',
+            ]
+        ];
 
-        // foreach ($users as $user)
-        //     \App\Models\User::create($user)
-        // ;
+        foreach ($users as $user)
+            \App\Models\User::create($user)
+        ;
 
     }
 

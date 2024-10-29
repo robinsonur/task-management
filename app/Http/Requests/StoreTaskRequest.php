@@ -28,7 +28,7 @@ class StoreTaskRequest extends FormRequest {
             'due_date' => ['required', 'date_format:Y-m-d H:i:s', 'after_or_equal:-15 days'],
             'status_id' => ['required', 'integer', 'exists:statuses,id'],
             'user_ids' => ['sometimes', 'array'],
-            'user_ids.*' => ['required', 'integer', 'exists:users,id']
+            'user_ids.*' => ['required', 'integer', 'distinct', 'exists:users,id']
         ];
 
         return $rules;

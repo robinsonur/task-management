@@ -100,14 +100,35 @@ class TaskController extends Controller {
 
         $data = $request->validated();
 
-        $task->update($data);
+        $userIds = $data['user_ids'] ?? [];
 
         $response = [
             'message' => 'Task updated successfully!',
             'data' => $data
         ];
 
+        ['message' => &$message] = $response;
+
+        unset($data['user_ids']);
+
+        $task->update($data);
+
         $status = 200;
+
+        if ($request->method() !== 'PATCH' || $request->has('user_ids')) {
+
+            $userTasks = $task->users()->sync($userIds);
+
+            if (empty($userTasks)) {
+
+                $message = 'An unexpected error occurred while trying to assign the task to users!';
+
+                $status = 400;
+
+            }
+
+        }
+
 
         return response()->json($response, $status);
 

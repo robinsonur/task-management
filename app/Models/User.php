@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable {
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, SoftDeletes, HasApiTokens, Notifiable;
+    use HasFactory, SoftDeletes, HasApiTokens, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -50,16 +51,13 @@ class User extends Authenticatable {
 
     }
 
-    public function tasks(): HasManyThrough {
+    public function tasks(): BelongsToMany {
 
-        return $this->hasManyThrough(
-            Task::class,
-            UserTask::class,
-            'user_id',
-            'id',
-            NULL,
-            'task_id'
-        );
+        return $this
+            ->belongsToMany(Task::class, 'user_tasks')
+            ->withTimestamps()
+            ->withPivot('deleted_at')
+        ;
 
     }
 

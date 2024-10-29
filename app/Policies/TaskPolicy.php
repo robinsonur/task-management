@@ -22,7 +22,7 @@ class TaskPolicy {
      */
     public function view(User $user, Task $task): bool {
 
-        return true;
+        return false;
 
     }
 
