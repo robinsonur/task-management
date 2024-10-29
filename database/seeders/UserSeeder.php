@@ -30,7 +30,7 @@ class UserSeeder extends Seeder {
         ];
 
         foreach ($users as $user)
-            \App\Models\User::create($user)
+            \App\Models\User::create($user)->assignRole('Administrator')
         ;
 
     }

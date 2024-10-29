@@ -22,10 +22,10 @@ Route::middleware(['auth:sanctum'])->group(function() {
 
     Route::post('/signOut', [AuthController::class, 'signOut']);
 
-    Route::apiResource('recordTypes', RecordTypeController::class);
-
-    Route::apiResource('statuses', StatusController::class);
-
-    Route::apiResource('tasks', TaskController::class);
+    Route::resources([
+        'recordTypes' => RecordTypeController::class,
+        'statuses' => StatusController::class,
+        'tasks' => TaskController::class
+    ]);
 
 });
