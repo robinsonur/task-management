@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Status;
 use App\Http\Resources\StatusCollection;
 use App\Http\Requests\StoreStatusRequest;
@@ -10,6 +11,8 @@ use App\Http\Resources\StatusResource;
 use App\Http\Requests\UpdateStatusRequest;
 
 class StatusController extends Controller {
+
+    use AuthorizesRequests;
 
     /**
      * Display a listing of the resource.
@@ -19,15 +22,6 @@ class StatusController extends Controller {
         $statuses = Status::paginate();
 
         return new StatusCollection($statuses);
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create() {
-
-        //
 
     }
 
@@ -67,15 +61,6 @@ class StatusController extends Controller {
     public function show(Status $status) {
 
         return new StatusResource($status);
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Status $status) {
-
-        //
 
     }
 

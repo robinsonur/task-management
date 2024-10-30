@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Task;
 use App\Http\Resources\TaskCollection;
 use App\Http\Requests\StoreTaskRequest;
@@ -10,6 +11,8 @@ use App\Http\Resources\TaskResource;
 use App\Http\Requests\UpdateTaskRequest;
 
 class TaskController extends Controller {
+
+    use AuthorizesRequests;
 
     /**
      * Display a listing of the resource.
@@ -19,15 +22,6 @@ class TaskController extends Controller {
         $tasks = Task::paginate();
 
         return new TaskCollection($tasks);
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create() {
-
-        //
 
     }
 
@@ -79,15 +73,6 @@ class TaskController extends Controller {
      * Display the specified resource.
      */
     public function show(Task $task) {
-
-        return new TaskResource($task);
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Task $task) {
 
         return new TaskResource($task);
 

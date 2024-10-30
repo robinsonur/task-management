@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use App\Models\RecordType;
-use App\Http\Resources\RecordTypeCollection;
-use App\Http\Requests\StoreRecordTypeRequest;
-use App\Http\Resources\RecordTypeResource;
-use App\Http\Requests\UpdateRecordTypeRequest;
+use App\Models\Record;
+use App\Http\Resources\RecordCollection;
+use App\Http\Requests\StoreRecordRequest;
+use App\Http\Resources\RecordResource;
+use App\Http\Requests\UpdateRecordRequest;
 
-class RecordTypeController extends Controller {
+class RecordController extends Controller {
 
     use AuthorizesRequests;
 
@@ -21,23 +21,23 @@ class RecordTypeController extends Controller {
 
         $this->authorize('viewAny');
 
-        $recordTypes = RecordType::paginate();
+        $records = Record::paginate();
 
-        return new RecordTypeCollection($recordTypes);
+        return new RecordCollection($records);
 
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRecordTypeRequest $request) {
+    public function store(StoreRecordRequest $request) {
 
         $data = $request->validated();
 
-        $recordType = RecordType::create($data);
+        $record = Record::create($data);
 
         $response = [
-            'message' => 'Record type created successfully!',
+            'message' => 'Record created successfully!',
             'data' => $data
         ];
 
@@ -45,9 +45,9 @@ class RecordTypeController extends Controller {
 
         $status = 201;
 
-        if (!$recordType) {
+        if (!$record) {
 
-            $message = 'An unexpected error occurred while trying to create the record type!';
+            $message = 'An unexpected error occurred while trying to create the record!';
 
             $status = 400;
 
@@ -60,20 +60,20 @@ class RecordTypeController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(RecordType $recordType) {
+    public function show(Record $record) {
 
-        return new RecordTypeResource($recordType);
+        return new RecordResource($record);
 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRecordTypeRequest $request, RecordType $recordType) {
+    public function update(UpdateRecordRequest $request, Record $record) {
 
         $data = $request->validated();
 
-        $recordType->update($data);
+        $record->update($data);
 
         $response = [
             'message' => 'Record type updated successfully!',
@@ -89,12 +89,12 @@ class RecordTypeController extends Controller {
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(RecordType $recordType) {
+    public function destroy(Record $record) {
 
-        $data = $recordType->toArray();
+        $data = $record->toArray();
 
         $response = [
-            'message' => 'Record type deleted successfully!',
+            'message' => 'Record deleted successfully!',
             'data' => $data
         ];
 
@@ -102,17 +102,18 @@ class RecordTypeController extends Controller {
 
         $status = 200;
 
-        if (!$recordType) {
+        if (!$record) {
 
-            $message = 'An unexpected error occurred while trying to delete the record type!';
+            $message = 'An unexpected error occurred while trying to delete the record!';
 
             $status = 400;
 
         } else
-            $recordType->delete()
+            $record->delete()
         ;
 
         return response()->json($response, $status);
+
 
     }
 
