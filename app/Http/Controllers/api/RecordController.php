@@ -32,6 +32,8 @@ class RecordController extends Controller {
      */
     public function store(StoreRecordRequest $request) {
 
+        $this->authorize('create');
+
         $data = $request->validated();
 
         $record = Record::create($data);
@@ -62,6 +64,8 @@ class RecordController extends Controller {
      */
     public function show(Record $record) {
 
+        $this->authorize('view');
+
         return new RecordResource($record);
 
     }
@@ -70,6 +74,8 @@ class RecordController extends Controller {
      * Update the specified resource in storage.
      */
     public function update(UpdateRecordRequest $request, Record $record) {
+
+        $this->authorize('update');
 
         $data = $request->validated();
 
@@ -90,6 +96,8 @@ class RecordController extends Controller {
      * Remove the specified resource from storage.
      */
     public function destroy(Record $record) {
+
+        $this->authorize('delete');
 
         $data = $record->toArray();
 

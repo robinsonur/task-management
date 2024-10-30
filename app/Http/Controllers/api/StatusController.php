@@ -19,6 +19,8 @@ class StatusController extends Controller {
      */
     public function index() {
 
+        $this->authorize('viewAny');
+
         $statuses = Status::paginate();
 
         return new StatusCollection($statuses);
@@ -29,6 +31,8 @@ class StatusController extends Controller {
      * Store a newly created resource in storage.
      */
     public function store(StoreStatusRequest $request) {
+
+        $this->authorize('create');
 
         $data = $request->validated();
 
@@ -60,6 +64,8 @@ class StatusController extends Controller {
      */
     public function show(Status $status) {
 
+        $this->authorize('view');
+
         return new StatusResource($status);
 
     }
@@ -68,6 +74,8 @@ class StatusController extends Controller {
      * Update the specified resource in storage.
      */
     public function update(UpdateStatusRequest $request, Status $statusInstance) {
+
+        $this->authorize('update');
 
         $data = $request->validated();
 
@@ -88,6 +96,8 @@ class StatusController extends Controller {
      * Remove the specified resource from storage.
      */
     public function destroy(Status $statusInstance) {
+
+        $this->authorize('delete');
 
         $data = $statusInstance->toArray();
 

@@ -19,6 +19,8 @@ class TaskController extends Controller {
      */
     public function index() {
 
+        $this->authorize('viewAny');
+
         $tasks = Task::paginate();
 
         return new TaskCollection($tasks);
@@ -29,6 +31,8 @@ class TaskController extends Controller {
      * Store a newly created resource in storage.
      */
     public function store(StoreTaskRequest $request) {
+
+        $this->authorize('create');
 
         $data = $request->validated();
 
@@ -74,6 +78,8 @@ class TaskController extends Controller {
      */
     public function show(Task $task) {
 
+        $this->authorize('view');
+
         return new TaskResource($task);
 
     }
@@ -82,6 +88,8 @@ class TaskController extends Controller {
      * Update the specified resource in storage.
      */
     public function update(UpdateTaskRequest $request, Task $task) {
+
+        $this->authorize('update');
 
         $data = $request->validated();
 
@@ -114,7 +122,6 @@ class TaskController extends Controller {
 
         }
 
-
         return response()->json($response, $status);
 
     }
@@ -123,6 +130,8 @@ class TaskController extends Controller {
      * Remove the specified resource from storage.
      */
     public function destroy(Task $task) {
+
+        $this->authorize('delete');
 
         $data = $task->toArray();
 
@@ -146,7 +155,6 @@ class TaskController extends Controller {
         ;
 
         return response()->json($response, $status);
-
 
     }
 

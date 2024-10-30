@@ -32,6 +32,8 @@ class RecordTypeController extends Controller {
      */
     public function store(StoreRecordTypeRequest $request) {
 
+        $this->authorize('create');
+
         $data = $request->validated();
 
         $recordType = RecordType::create($data);
@@ -62,6 +64,8 @@ class RecordTypeController extends Controller {
      */
     public function show(RecordType $recordType) {
 
+        $this->authorize('view');
+
         return new RecordTypeResource($recordType);
 
     }
@@ -70,6 +74,8 @@ class RecordTypeController extends Controller {
      * Update the specified resource in storage.
      */
     public function update(UpdateRecordTypeRequest $request, RecordType $recordType) {
+
+        $this->authorize('update');
 
         $data = $request->validated();
 
@@ -90,6 +96,8 @@ class RecordTypeController extends Controller {
      * Remove the specified resource from storage.
      */
     public function destroy(RecordType $recordType) {
+
+        $this->authorize('delete');
 
         $data = $recordType->toArray();
 

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateTaskRequest extends FormRequest {
+class UpdateUserRequest extends FormRequest {
 
     /**
      * Determine if the user is authorized to make this request.
@@ -23,15 +23,12 @@ class UpdateTaskRequest extends FormRequest {
      */
     public function rules(): array {
 
-        $taskId = $this->route('task')->id;
+        $userId = $this->route('user')->id;
 
         $rules = [
-            'name' => ['string', 'min:3', 'max:255', "unique:tasks,name,$taskId"],
-            'description' => ['string'],
-            'due_date' => ['date', 'after_or_equal:-15 days'],
-            'status_id' => ['integer', 'exists:statuses,id'],
-            'user_ids' => ['sometimes', 'array'],
-            'user_ids.*' => ['required', 'integer', 'distinct', 'exists:users,id']
+            'name' => ['required', 'string', 'min:8', 'max:255', "unique:Users,name,$userId"],
+            'email' => ['required', 'email', 'max:255', 'unique:Users'],
+            'password' => ['required', 'string', 'min:8', 'max:32']
         ];
 
         $methodRule = $this->method() === 'PATCH' ? 'sometimes' : 'required';
