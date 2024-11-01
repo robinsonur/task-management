@@ -9,8 +9,6 @@ use App\Http\Controllers\api\RecordController;
 use App\Http\Controllers\api\StatusController;
 use App\Http\Controllers\api\TaskController;
 
-auth()->loginUsingId(22);
-
 Route::middleware(['guest:sanctum'])
     ->controller(AuthController::class)
     ->group(function() {
