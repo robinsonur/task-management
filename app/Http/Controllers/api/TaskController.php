@@ -19,9 +19,15 @@ class TaskController extends Controller {
      */
     public function index() {
 
-        $this->authorize('viewAny');
+        $this->authorize('viewAny', [Task::class]);
 
-        $tasks = Task::paginate();
+        $user = auth()->user();
+
+        if ($user->hasPermissionTo('view-any-task'))
+            $tasks = Task::paginate();
+        else
+            $tasks = $user->tasks()->paginate()
+        ;
 
         return new TaskCollection($tasks);
 
@@ -32,7 +38,7 @@ class TaskController extends Controller {
      */
     public function store(StoreTaskRequest $request) {
 
-        $this->authorize('create');
+        $this->authorize('create', [Task::class]);
 
         $data = $request->validated();
 
@@ -78,7 +84,7 @@ class TaskController extends Controller {
      */
     public function show(Task $task) {
 
-        $this->authorize('view');
+        $this->authorize('view', [$task]);
 
         return new TaskResource($task);
 
@@ -89,7 +95,7 @@ class TaskController extends Controller {
      */
     public function update(UpdateTaskRequest $request, Task $task) {
 
-        $this->authorize('update');
+        $this->authorize('update', [$task]);
 
         $data = $request->validated();
 
@@ -131,7 +137,7 @@ class TaskController extends Controller {
      */
     public function destroy(Task $task) {
 
-        $this->authorize('delete');
+        $this->authorize('delete', [$task]);
 
         $data = $task->toArray();
 

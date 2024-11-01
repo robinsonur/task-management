@@ -19,7 +19,7 @@ class UserController extends Controller {
      */
     public function index() {
 
-        $this->authorize('viewAny');
+        $this->authorize('viewAny', [User::class]);
 
         $users = User::paginate();
 
@@ -32,7 +32,7 @@ class UserController extends Controller {
      */
     public function store(StoreUserRequest $request) {
 
-        $this->authorize('create');
+        $this->authorize('create', [User::class]);
 
         $data = $request->validated();
 
@@ -66,7 +66,7 @@ class UserController extends Controller {
      */
     public function show(User $user) {
 
-        $this->authorize('view');
+        $this->authorize('view', [$user]);
 
         return new UserResource($user);
 
@@ -77,7 +77,7 @@ class UserController extends Controller {
      */
     public function update(UpdateUserRequest $request, User $user) {
 
-        $this->authorize('update');
+        $this->authorize('update', [$user]);
 
         $data = $request->validated();
 
@@ -103,7 +103,7 @@ class UserController extends Controller {
      */
     public function destroy(User $user) {
 
-        $this->authorize('delete');
+        $this->authorize('delete', [$user]);
 
         $data = $user->toArray();
 

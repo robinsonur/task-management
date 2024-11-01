@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->softDeletes();
             $table->timestamps();
 
-            $table->unique(['record_type_id', 'name']);
+            $table->primary(['record_type_id', 'name']);
             $table->index(['record_type_id', 'name']);
         });
 

@@ -20,9 +20,7 @@ class AppServiceProvider extends ServiceProvider {
      */
     public function boot(): void {
 
-        \Illuminate\Support\Facades\Gate::before(fn($user, $ability) =>
-            $user->hasRole('Administrator')
-        );
+        //
 
     }
 

@@ -51,7 +51,7 @@ class AuthController extends Controller {
 
         if (!$authenticated) {
 
-            $response['message'] = 'Failed to sign in!';
+            $response['message'] = 'Email and/or password not valid!';
 
             return response()->json($response, 403);
 

@@ -19,7 +19,7 @@ class RecordTypeController extends Controller {
      */
     public function index() {
 
-        $this->authorize('viewAny');
+        $this->authorize('viewAny', [RecordType::class]);
 
         $recordTypes = RecordType::paginate();
 
@@ -32,7 +32,7 @@ class RecordTypeController extends Controller {
      */
     public function store(StoreRecordTypeRequest $request) {
 
-        $this->authorize('create');
+        $this->authorize('create', [RecordType::class]);
 
         $data = $request->validated();
 
@@ -64,7 +64,7 @@ class RecordTypeController extends Controller {
      */
     public function show(RecordType $recordType) {
 
-        $this->authorize('view');
+        $this->authorize('view', [$recordType]);
 
         return new RecordTypeResource($recordType);
 
@@ -75,7 +75,7 @@ class RecordTypeController extends Controller {
      */
     public function update(UpdateRecordTypeRequest $request, RecordType $recordType) {
 
-        $this->authorize('update');
+        $this->authorize('update', [$recordType]);
 
         $data = $request->validated();
 
@@ -97,7 +97,7 @@ class RecordTypeController extends Controller {
      */
     public function destroy(RecordType $recordType) {
 
-        $this->authorize('delete');
+        $this->authorize('delete', [$recordType]);
 
         $data = $recordType->toArray();
 

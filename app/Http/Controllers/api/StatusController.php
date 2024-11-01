@@ -19,7 +19,7 @@ class StatusController extends Controller {
      */
     public function index() {
 
-        $this->authorize('viewAny');
+        $this->authorize('viewAny', [Status::class]);
 
         $statuses = Status::paginate();
 
@@ -32,7 +32,7 @@ class StatusController extends Controller {
      */
     public function store(StoreStatusRequest $request) {
 
-        $this->authorize('create');
+        $this->authorize('create', [Status::class]);
 
         $data = $request->validated();
 
@@ -64,7 +64,7 @@ class StatusController extends Controller {
      */
     public function show(Status $status) {
 
-        $this->authorize('view');
+        $this->authorize('view', [$status]);
 
         return new StatusResource($status);
 
@@ -75,7 +75,7 @@ class StatusController extends Controller {
      */
     public function update(UpdateStatusRequest $request, Status $statusInstance) {
 
-        $this->authorize('update');
+        $this->authorize('update', [$statusInstance]);
 
         $data = $request->validated();
 
@@ -97,7 +97,7 @@ class StatusController extends Controller {
      */
     public function destroy(Status $statusInstance) {
 
-        $this->authorize('delete');
+        $this->authorize('delete', [$statusInstance]);
 
         $data = $statusInstance->toArray();
 

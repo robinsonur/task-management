@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -19,7 +19,7 @@ class RecordController extends Controller {
      */
     public function index() {
 
-        $this->authorize('viewAny');
+        $this->authorize('viewAny', [Record::class]);
 
         $records = Record::paginate();
 
@@ -32,7 +32,7 @@ class RecordController extends Controller {
      */
     public function store(StoreRecordRequest $request) {
 
-        $this->authorize('create');
+        $this->authorize('create', [Record::class]);
 
         $data = $request->validated();
 
@@ -64,7 +64,7 @@ class RecordController extends Controller {
      */
     public function show(Record $record) {
 
-        $this->authorize('view');
+        $this->authorize('view', [$record]);
 
         return new RecordResource($record);
 
@@ -75,7 +75,7 @@ class RecordController extends Controller {
      */
     public function update(UpdateRecordRequest $request, Record $record) {
 
-        $this->authorize('update');
+        $this->authorize('update', [$record]);
 
         $data = $request->validated();
 
@@ -97,7 +97,7 @@ class RecordController extends Controller {
      */
     public function destroy(Record $record) {
 
-        $this->authorize('delete');
+        $this->authorize('delete', [$record]);
 
         $data = $record->toArray();
 
